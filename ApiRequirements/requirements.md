@@ -1,68 +1,86 @@
 ## Restaurant list
 
-```ts
-type RestaurantSimple = {
-    id: number;
-    name: string;
-    cuisine: string[];
-    address: Address;
-    location: Location;
-    rating: number;
-    freeTables: number;
-};
+```java
+
+public class RestaurantSimple {
+    public int id;
+    public String name;
+    public List<String> cuisine;
+    public Address address;
+    public Location location;
+    public double rating;
+    public int freeTables;
+}
 ```
 
 ## Restaurant detail
 
-```ts
-type RestaurantDetail = {
-    id: number;
-    name: string;
-    cuisine: string[];
-    address: Address;
-    location: Location;
-    rating: number;
-    sections: Section[];
-};
+```java
+public class RestaurantDetail {
+    public int id;
+    public String name;
+    public List<String> cuisine;
+    public Address address;
+    public Location location;
+    public double rating;
+    public List<Section> sections;
+}
 ```
 
 ## Helper types
 
 
 ### Section
-```ts
-type Section = {
-    id: number;
-    name: string;
-    tables: Table[];
-};
+```java
+public class Section {
+    public int id;
+    public String name;
+    public List<Table> tables;
+    public SectionLayout layout;
+}
 ```
 
 ### Table
-```ts
-type Table = {
-    id: number;
-    status: 'UNKNOWN' | 'OCCUPIED' | 'AVAIALABLE';
-    positionX: number;
-    positionY: number;
-    capacity: number;
-};
+```java
+public class Table {
+    public int id;
+    public TableStatus status;
+    public int positionX;
+    public int positionY;
+    public int capacity;
+}
+
+public enum TableStatus {
+    UNKNOWN,
+    OCCUPIED,
+    AVAILABLE
+}
 ```
 
 ### Address
-```ts
-type Address = {
-    streetNumber: number;
-    aparmentNumber: number | null;
-    city: string;
-    postalCode: string;
-    country: string;
-};
+```java
+public class Address {
+    public int streetNumber;
+    public Integer apartmentNumber; // nullable
+    public String city;
+    public String postalCode;
+    public String country;
+}
 ```
 
 ### Location
-```ts
-type Location = {
-    lat: number;
-    lng: number;
-};
+```java
+public class Location {
+    public double lat;
+    public double lng;
+}
+```
+
+### Section layout
+```java
+public class SectionLayout { // all values in cm
+    public int viewportWidth;
+    public int viewportHeight;
+    public String shape; // SVG path string, ref: https://www.w3schools.com/graphics/svg_path.asp
+}
+```
