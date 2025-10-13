@@ -4,10 +4,13 @@
 \usepackage[T1]{fontenc}
 \usepackage{geometry}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usepackage[edges]{forest}
 \usepackage{datetime}
 \newdateformat{monthyeardate}{\monthname[\THEMONTH]\space\THEYEAR}
 
 \geometry{a4paper, margin=1in}
+\usetikzlibrary{arrows.meta}
 
 \title{Project Management Plan \\ \vspace{0.25cm} \large TableHub}
 \author{Julian Bednarek, Jakub Raj, Hubert Szadkowski \\ Bartłomiej Sęczkowski, Diana Prośniewska \\ under the supervision of Dr. Eng. Rafał Kotas}
@@ -20,4 +23,166 @@
 
 \tableofcontents
 \newpage
+\section{Project overview}
+\subsection*{Description}
+TableHub is a mobile application designed to streamline the process of finding available tables in public places. The app allows users to report the status of tables, marking them as either available or occupied.
+\subsection*{Background}
+The idea for TableHub emerged from the common challenge which founders faced when trying to find a free table in busy cafes, restaurants, and public spaces. The lack of real-time information often leads to frustration and wasted time. 
+\subsection*{Stakeholders}
+The primary stakeholders for TableHub include:
+\begin{itemize}
+    \item Users: Individuals who will use the app to find and report table statuses.
+    \item Business Owners: Cafes, restaurants, and public spaces that can benefit from increased customer satisfaction and efficient table management.
+\end{itemize}
+\section{Scope \& objectives of project}
+\subsection*{Project scope}
+The project focues on designing and developing a mobile application that allows users to report tables' statuses in public places. The application will enable users to mark tables as available or occupied, providing real-time information to others looking for a place to sit. The app will also include engaging features such as gamification elements to encourage user participation and a user-friendly interface for easy navigation. 
+\subsection*{Project objectives}
+\begin{itemize}
+    \item Develop a user-friendly mobile application for reporting table statuses.
+    \item Implement real-time updates for table availability.
+    \item Incorporate gamification elements to enhance user engagement.
+    \item Ensure accessibility and ease of use for all users.
+    \item Tailor the product for market fit and user needs.
+    \item Conduct thorough testing to ensure reliability and performance.
+\end{itemize}
+\section{Deliverables}
+\begin{itemize}
+    \item A detailed designs and user-centered interface for the mobile application made from research and user feedback.
+    \item A fully functional mobile application for Android platforms (and maybe iOS in the future).
+    \item A backend system to manage user reports and real-time updates.
+    \item Documentation including user guides, technical specifications, and maintenance plans.
+    \item A proper report documenting the development process, challenges faced, and solutions implemented.
+    \item Presentations and demonstrations of the application to stakeholders and course supervisors.
+\end{itemize}
+\section{Work breakdown structure}
+\begin{forest}
+  for tree={
+    grow=east,
+    draw,
+    rounded corners,
+    node options={align=center},
+    edge path={\noexpand\path [draw, \forestoption{edge}] (!u.parent anchor) -- (.child anchor);},
+    l sep+=3pt,
+    s sep+=1pt,
+    anchor=west,
+    calign=center,
+    parent anchor=east,
+    child anchor=west,
+    tier/.option=level,
+    fit=band,
+    before typesetting nodes={
+      if n=1
+        {insert before={[, phantom]}}
+        {}
+    },
+  }
+  [TableHub Project
+    [Research \& Analysis
+      [Finding whether the product is needed]
+      [Finding how to engage users]
+      [Finding the target group]
+    ]
+    [Design \& Prototyping
+      [Designing the app's interface]
+      [Creating a prototype views of the app]
+    ]
+    [Backend Development
+        [Create a database schema]
+        [Create working backend]
+        [Handle real-time updates]
+        [Implement user authentication]
+    ]
+    [Mobile App Development
+        [Set up the development environment]
+        [Implement user interface]
+        [Integrate with backend services]
+        [Incorporate gamification elements]
+    ]
+    [DevOps
+        [Set up CI/CD pipelines]
+        [Implement monitoring and logging]
+        [Ensure security best practices]
+        [Deploy the application]
+    ]
+    [Testing
+        [User Acceptance Testing]
+        [Performance Testing]
+    ]
+    [Course Deliverables
+        [Documentation]
+        [Final Report]
+        [Presentations]
+    ]
+  ]
+\end{forest}
+\section{Stakeholders}
+
+\begin{figure}[!h]
+\centering
+% Increased scale from 1.5 to 2.0 to make the graph significantly bigger
+\begin{tikzpicture}[scale=3.5]
+
+    % Define the coordinates for the center
+    \coordinate (Center) at (0,0);
+    
+    % Define the max coordinates for the axes
+    \def\MaxCoord{3.5}
+    \def\AxisLabelOffset{0.3}
+
+    % Draw the X and Y axes with arrows
+    \draw [-{Stealth[length=2mm]}, thick] (0, -\AxisLabelOffset) -- (0, \MaxCoord) node[above left] {\textbf{High}};
+    \draw [-{Stealth[length=2mm]}, thick] (-\AxisLabelOffset, 0) -- (\MaxCoord, 0) node[below right] {\textbf{High}};
+    
+    % Add the axes labels (Power and Interest)
+    \node[anchor=south, rotate=90] at (-\AxisLabelOffset, \MaxCoord/2) {\textbf{Power}};
+    \node[anchor=north] at (\MaxCoord/2, -\AxisLabelOffset) {\textbf{Interest}};
+    
+    % Add the Low labels
+    \node[anchor=north east] at (0, -\AxisLabelOffset) {\textbf{Low}};
+    % REMOVED: \node[anchor=south west] at (-\AxisLabelOffset, 0) {\textbf{Low}};
+
+    % Draw the dashed dividing lines
+    \draw[dashed, thin, gray] (\MaxCoord/2, 0) -- (\MaxCoord/2, \MaxCoord);
+    \draw[dashed, thin, gray] (0, \MaxCoord/2) -- (\MaxCoord, \MaxCoord/2);
+
+    % Define the quadrants
+    \coordinate (Q1) at (\MaxCoord * 3/4, \MaxCoord * 3/4); % High Power, High Interest
+    \coordinate (Q2) at (\MaxCoord * 1/4, \MaxCoord * 3/4); % High Power, Low Interest
+    \coordinate (Q3) at (\MaxCoord * 1/4, \MaxCoord * 1/4); % Low Power, Low Interest
+    \coordinate (Q4) at (\MaxCoord * 3/4, \MaxCoord * 1/4); % Low Power, High Interest
+
+    % Add the title
+    \node[font=\Large\bfseries, text=blue] at (\MaxCoord/2, \MaxCoord + 0.5) {Power-Interest Grid};
+    
+    % Add the text to the quadrants
+    \node[font=\bfseries, align=center] at (Q2) {Keep \\ Satisfied};
+    \node[font=\bfseries, align=center] at (Q1) {Manage \\ Closely};
+    \node[font=\bfseries, align=center] at (Q3) {Monitor};
+    \node[font=\bfseries, align=center] at (Q4) {Keep \\ Informed};
+
+
+    % SECTION TO ADD POINTS AND LABELS (Stakeholders)
+    
+    % Stakeholder A: High Power, High Interest (Manage Closely)
+    \coordinate (StA) at (3.25, 3.5);
+    \fill[red] (StA) circle (3pt); % The point
+    \node[right] at (StA) {\textbf{Young users}};    % The label
+
+    % Stakeholder C: Low Power, High Interest (Keep Informed)
+    \coordinate (StC) at (2.4, 1.8);
+    \fill[green!60!black] (StC) circle (3pt); % The point
+    \node[above] at (StC) {\textbf{Older (>25) Users}}; % The label
+
+    % Stakeholder D: Low Power, Low Interest (Monitor)
+    \coordinate (StD) at (0.4, 0.7);
+    \fill[orange] (StD) circle (3pt); % The point
+    \node[below] at (StD) {\textbf{Restaurant owners}}; % The label
+
+\end{tikzpicture}
+\caption{Power-Interest Grid with Stakeholders}
+\end{figure}
+
+\section{Project schedule}
+\section{Project's risk management}
 \end{document}
