@@ -1,13 +1,12 @@
 ## Restaurant list
 
 ```java
-
-public class RestaurantSimple {
+public class RestaurantSimpleDTO {
     public int id;
     public String name;
-    public List<String> cuisine;
-    public Address address;
-    public Location location;
+    public List<String> cuisines;
+    public AddressDTO address;
+    public LocationDTO location;
     public double rating;
     public int freeTables;
 }
@@ -16,14 +15,14 @@ public class RestaurantSimple {
 ## Restaurant detail
 
 ```java
-public class RestaurantDetail {
+public class RestaurantDetailDTO {
     public int id;
     public String name;
-    public List<String> cuisine;
-    public Address address;
-    public Location location;
+    public List<String> cuisines;
+    public AddressDTO address;
+    public LocationDTO location;
     public double rating;
-    public List<Section> sections;
+    public List<SectionDTO> sections;
 }
 ```
 
@@ -32,21 +31,21 @@ public class RestaurantDetail {
 
 ### Section
 ```java
-public class Section {
+public class SectionDTO {
     public int id;
     public String name;
-    public List<Table> tables;
+    public List<TableDTO> tables;
+    public List<PointOfInterestDTO> pois;
     public SectionLayout layout;
 }
 ```
 
 ### Table
 ```java
-public class Table {
+public class TableDTO {
     public int id;
     public TableStatus status;
-    public int positionX;
-    public int positionY;
+    public PointDTO position;
     public int capacity;
 }
 
@@ -56,11 +55,23 @@ public enum TableStatus {
     AVAILABLE
 }
 ```
+### Point of interest (POI)
+
+```java
+public class PointOfInterestDTO {
+    public int id;
+    public String description; // free text
+    public PointDTO topLeft;
+    public PointDTO bottomRight;
+}
+```
+
 
 ### Address
 ```java
-public class Address {
+public class AddressDTO {
     public int streetNumber;
+    public String streetName;
     public Integer apartmentNumber; // nullable
     public String city;
     public String postalCode;
@@ -70,9 +81,17 @@ public class Address {
 
 ### Location
 ```java
-public class Location {
+public class LocationDTO {
     public double lat;
     public double lng;
+}
+```
+
+### Layout point
+```java
+public class PointDTO {
+    public int x;
+    public int y;
 }
 ```
 
