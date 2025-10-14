@@ -8,7 +8,7 @@ public class RestaurantSimpleDTO {
     public AddressDTO address;
     public LocationDTO location;
     public double rating;
-    public int freeTables;
+    public List<TableAvailablity> availabilityHistogram;
 }
 ```
 
@@ -17,11 +17,6 @@ public class RestaurantSimpleDTO {
 ```java
 public class RestaurantDetailDTO {
     public int id;
-    public String name;
-    public List<String> cuisines;
-    public AddressDTO address;
-    public LocationDTO location;
-    public double rating;
     public List<SectionDTO> sections;
 }
 ```
@@ -63,6 +58,7 @@ public class PointOfInterestDTO {
     public String description; // free text
     public PointDTO topLeft;
     public PointDTO bottomRight;
+    public List<Integer> otherSectionPoiLink;
 }
 ```
 
@@ -101,5 +97,13 @@ public class SectionLayout { // all values in cm
     public int viewportWidth;
     public int viewportHeight;
     public String shape; // SVG path string, ref: https://www.w3schools.com/graphics/svg_path.asp
+}
+```
+
+### Table histogram entry
+```java
+public class TableAvailablity {
+    public int tableCapacity;
+    public int availableSeats;
 }
 ```
