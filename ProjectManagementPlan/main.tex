@@ -4,7 +4,9 @@
 \usepackage[T1]{fontenc}
 \usepackage{geometry}
 \usepackage{hyperref}
+\usepackage{float}
 \usepackage{tikz}
+\usepackage{rotating}
 \usepackage[edges]{forest}
 \usepackage{datetime}
 \newdateformat{monthyeardate}{\monthname[\THEMONTH]\space\THEYEAR}
@@ -116,9 +118,8 @@ The project focues on designing and developing a mobile application that allows 
     ]
   ]
 \end{forest}
-\section{Stakeholders}
-
-\begin{figure}[!h]
+\section{Stakeholder analysis}
+\begin{figure}[H]
 \centering
 % Increased scale from 1.5 to 2.0 to make the graph significantly bigger
 \begin{tikzpicture}[scale=3.5]
@@ -183,6 +184,37 @@ The project focues on designing and developing a mobile application that allows 
 \caption{Power-Interest Grid with Stakeholders}
 \end{figure}
 
-\section{Project schedule}
 \section{Project's risk management}
+Main risks in our project:
+\begin{itemize}
+  \item Low end-user engagement
+  \item Blocking progress e.g. backend blocking mobile na vice-versa
+  \item Not meetings deadline
+  \item Conflicts between team members
+\end{itemize}
+\section{Project schedule}
+
+\begin{itemize}
+    \item \textbf{TH-2 Background tasks (Gray):} The initial phase, running in parallel with other development efforts.
+    \item \textbf{TH-5 Optimization and maintenance (Green):} A long-term continuous effort focused on system stability and improvement.
+    \item \textbf{TH-6 Gamification (Yellow/Blue line):} The main implementation of the gamification feature, representing a major development phase.
+    \item \textbf{TH-7 DevOps:} Tasks related to establishing and maintaining the continuous integration and deployment pipeline.
+    \item \textbf{TH-9 Design review (Red):} A focused, mid-project task for reviewing and revising the current system design.
+    \item \textbf{TH-34 User experience improvement:} Tasks specifically aimed at enhancing the overall user experience (UX).
+    \item \textbf{TH-35 Main release:} The critical milestone representing the final product launch.
+    \item \textbf{TH-36 Stress testing:} The final technical testing phase to ensure system stability and performance under load.
+\end{itemize}
+
+% Annotation to tell the reader where the diagram is located.
+The detailed Project Timeline (Gantt Chart) is provided on the following page in \textbf{Figure~\ref{fig:project_timeline}}.
+\begin{sidewaysfigure}
+    \centering
+    % 1. Set the image's width to the document's text height (\textheight).
+    %    When the page rotates, the height becomes the available width.
+    % 2. Ensure your image file is correct (project_timeline.png is used as an example).
+    \includegraphics[width=\textheight]{figures/project_timeline.png} 
+    
+    \caption{Project Timeline / Gantt Chart.}
+    \label{fig:project_timeline}
+\end{sidewaysfigure}
 \end{document}
