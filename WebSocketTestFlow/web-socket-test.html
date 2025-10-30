@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>STOMP WebSocket Test</title>
+    <!-- Load STOMP library -->
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+</head>
+<body>
+<h2>STOMP WebSocket Test</h2>
+<div id="status" style="color: red; font-weight: bold;">Not connected</div>
+
+<div>
+    <strong>Token:</strong> <input type="text" id="jwtToken" value="PASTE_TOKEN_HERE" style="width: 400px;">
+    <button onclick="connect()">Connect</button>
+    <button onclick="disconnect()">Disconnect</button>
+</div>
+
+<div style="margin-top: 10px;">
+    <button onclick="subscribe()" id="subscribeBtn" disabled>Subscribe to Topics</button>
+    <button onclick="unsubscribeIndividual()" id="unsubscribeIndBtn" disabled>Unsubscribe Individual</button>
+    <!-- Removed Send HTTP Update button -->
+</div>
+
+<h3>Messages:</h3>
+<div id="messages" style="border: 1px solid #ccc; background: #f4f4f4; min-height: 200px; padding: 5px;"></div>
+
+<script>
+    let stompClient = null;
+    let jwtToken = ''; // Will be set from input
+    let individualSubscription = null; // Store the individual subscription object
+
+    function connect() {
+        jwtToken = document.getElementById('jwtToken').value;
+        if (jwtToken === 'PASTE_TOKEN_HERE' || !jwtToken) {
+            alert('Please paste a valid JWT token first.');
+            return;
+        }
+
+        // Pass token in URL for JwtHandshakeInterceptor
+        const socketUrl = `ws://localhost:8080/ws?token=${jwtToken}`;
+
+        stompClient = new StompJs.Client({
+            brokerURL: socketUrl,
+
+            // Pass token in STOMP headers for AuthChannelInterceptor
+            connectHeaders: {
+                Authorization: `Bearer ${jwtToken}`
+            },
+
+            debug: (str) => {
+                console.log('STOMP: ' + str);
+            },
+            onConnect: (frame) => {
+                document.getElementById('status').innerText = 'Connected';
+                document.getElementById('status').style.color = 'green';
+                document.getElementById('subscribeBtn').disabled = false;
+                // Keep unsubscribe disabled until subscription happens
+                document.getElementById('unsubscribeIndBtn').disabled = true;
+                console.log('Connected: ' + frame);
+            },
+            onStompError: (frame) => {
+                console.error('Broker error: ' + frame.headers['message']);
+                console.error('Details: ' + frame.body);
+                document.getElementById('status').innerText = 'Connection Error (STOMP)';
+                document.getElementById('status').style.color = 'red';
+                disableButtonsOnDisconnect();
+            },
+            onWebSocketError: (event) => {
+                console.error('WebSocket error: ', event);
+                document.getElementById('status').innerText = 'Connection Error (WebSocket)';
+                document.getElementById('status').style.color = 'red';
+                disableButtonsOnDisconnect();
+            },
+            onDisconnect: () => {
+                document.getElementById('status').innerText = 'Disconnected';
+                document.getElementById('status').style.color = 'red';
+                disableButtonsOnDisconnect();
+                console.log("Disconnected");
+                individualSubscription = null; // Clear subscription reference
+            }
+        });
+
+        stompClient.activate();
+    }
+
+    function disconnect() {
+        if (stompClient !== null) {
+            stompClient.deactivate(); // onDisconnect callback will handle UI updates
+        }
+    }
+
+    function disableButtonsOnDisconnect() {
+        document.getElementById('subscribeBtn').disabled = true;
+        document.getElementById('unsubscribeIndBtn').disabled = true;
+    }
+
+    function subscribe() {
+        if (stompClient && stompClient.connected) {
+            // Subscribe to aggregate updates (no need to store this one for now)
+            stompClient.subscribe('/topic/restaurant-aggregates', (message) => {
+                showMessage('Aggregate: ' + message.body);
+            }, { id: 'sub-agg' }); // Use a unique ID
+
+            // Subscribe to specific restaurant updates (e.g., restaurant ID 1)
+            // Store the subscription object to allow unsubscribing later
+            individualSubscription = stompClient.subscribe('/topic/table-updates/1', (message) => {
+                showMessage('Table Update: ' + message.body);
+            }, { id: 'sub-ind' }); // Use a different unique ID
+
+            showMessage('Subscribed to topics: /topic/restaurant-aggregates and /topic/table-updates/1');
+            document.getElementById('unsubscribeIndBtn').disabled = false; // Enable unsubscribe button
+        } else {
+            alert('Not connected. Please connect first.');
+        }
+    }
+
+    function unsubscribeIndividual() {
+        if (individualSubscription) {
+            individualSubscription.unsubscribe();
+            individualSubscription = null; // Clear the reference
+            showMessage('Unsubscribed from /topic/table-updates/1');
+            document.getElementById('unsubscribeIndBtn').disabled = true; // Disable after unsubscribing
+        } else {
+            showMessage('Not currently subscribed to the individual topic or already unsubscribed.');
+        }
+    }
+
+    // Removed sendHttpUpdate function
+
+    function showMessage(message) {
+        const messagesDiv = document.getElementById('messages');
+        const p = document.createElement('p');
+        p.style.margin = '2px 0';
+        p.style.borderBottom = '1px solid #eee';
+        p.innerText = new Date().toLocaleTimeString() + ': ' + message;
+        messagesDiv.prepend(p); // Add new messages to the top
+    }
+</script>
+</body>
+</html>
